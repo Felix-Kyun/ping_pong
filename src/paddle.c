@@ -27,7 +27,6 @@ void update_paddle(Paddle *p, float addy) {
   if (addy == 0 || p->y + addy + p->len > LINES - 1 || p->y + addy <= 0)
     return;
   if ((int)p->y == (int)(p->y + addy)) {
-    notify(itoa((long)(abs(p->y * 100))), 1);
     p->y += addy;
     return;
   } else {

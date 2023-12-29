@@ -10,7 +10,7 @@
 #define PADDLE_UPDATE_STEP 0.5
 
 // define the delay between each ai update (in microseconds)
-#define PADDLE_UPDATE_DELAY 5000
+#define PADDLE_UPDATE_DELAY 10000
 
 // how long to hold the notification (in seconds)
 #define NOTIFICATION_DELAY 2
