@@ -10,6 +10,10 @@
 #include "ping.h"
 #include "setting.h"
 
+// BUG: write lock needed
+
+game_state s = GAME_CONTINUE;
+
 int main(int argc, const char **argv) {
   // init
   setlocale(LC_ALL, ""); // to add unicode support
@@ -38,6 +42,9 @@ int main(int argc, const char **argv) {
   int ch;
   while ((ch = getch()) != 'q') {
     refresh_ball(ball, p1, p2);
+    if (s == GAME_OVER) {
+      break;
+    }
     auto_paddle(p2, ball);
     refresh();
     switch (ch) {
@@ -64,6 +71,7 @@ int main(int argc, const char **argv) {
   // free up mem
   free(p1);
   free(p2);
+  free(ball);
 
   // de init
   endwin();

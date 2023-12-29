@@ -1,5 +1,6 @@
 #include "ball.h"
 #include "paddle.h"
+#include "ping.h"
 #include "setting.h"
 #include <math.h>
 #include <ncurses.h>
@@ -65,12 +66,12 @@ void *update_ball(void *arg) {
   } */
   // player 1 hit check
   if (((b->x >= p1->x) && (b->x <= p1->x + 1)) &&
-      ((b->y >= p1->y) && (b->y <= p1->y + p1->len - 1))) {
+      ((b->y >= p1->y) && (b->y <= p1->y + p1->len))) {
     b->xvel = -(b->xvel);
     b->yvel = -((p1->y + (((float)p1->len) / 2) - b->y) / (p1->len)) * 0.375;
     // player 2 aka ai hit check
   } else if (((b->x >= p2->x) && (b->x <= p2->x + 1)) &&
-             ((b->y >= p2->y) && (b->y <= p2->y + p2->len - 1))) {
+             ((b->y >= p2->y) && (b->y <= p2->y + p2->len))) {
     b->xvel = -(b->xvel);
     b->yvel = -((p2->y + (((float)p2->len) / 2) - b->y) / (p2->len)) * 0.375;
   }
@@ -83,6 +84,10 @@ void *update_ball(void *arg) {
   draw_ball(b, 1);
   draw_paddle(p1, 1);
   draw_paddle(p2, 1);
+  // game over
+  extern game_state s;
+  if (b->x < 0 || b->x > COLS)
+    s = GAME_OVER;
   // return
   usleep(BALL_REFRESH_INTERVAL);
   *(data->state) = 0;
