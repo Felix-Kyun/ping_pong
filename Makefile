@@ -1,28 +1,12 @@
-# IDIR =../include
+CC = gcc
 IDIR = ./src
-CC=gcc
-# CFLAGS=-I$(IDIR)
-CFLAGS=
+_DEPS = paddle.c notify.c ball.c auto.c flib.c
+CFLAGS = -lm -lncurses
 
-ODIR=obj
-
-LIBS=-lncurses
-
-_DEPS = ping.h ball.h notify.h paddle.h setting.h
+# conversions
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ =  ping.o ball.o notify.o paddle.o
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
-
-
-$(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-build: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-.PHONY: clean
-
-clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
+run:
+	$(CC) src/ping.c $(DEPS) -o ping_pong $(CFLAGS)
+	./ping_pong
 
